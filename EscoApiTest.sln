@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30309.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EscoApiTest", "EscoApiTest\EscoApiTest.csproj", "{BFB8AFBF-A633-41E0-81ED-5ED7DB46A5CB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BFB8AFBF-A633-41E0-81ED-5ED7DB46A5CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFB8AFBF-A633-41E0-81ED-5ED7DB46A5CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFB8AFBF-A633-41E0-81ED-5ED7DB46A5CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFB8AFBF-A633-41E0-81ED-5ED7DB46A5CB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FE87CDBB-D413-4187-9C31-1A4758F4B72C}
+	EndGlobalSection
+EndGlobal
