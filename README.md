@@ -1,6 +1,6 @@
 # EscoApi Client
 
-C# desktop application for testing EscoApi directly from the SandBox
+C# desktop application for testing **EscoApi** directly from the SandBox
 
 ## Example of use
 
