@@ -18,7 +18,7 @@ The possibility of downloading this application is also provided independently:
 
 ## Esco API 
 
-ESCO provides Office APIs that allow developers to create their own solutions built on the information that our Stock Exchange Back Office system offers. Information on Accounts, Transactions, Positions and general tables of the application can be consulted.
+ESCO provides [**Office APIs**](https://api.sistemasesco.com/swagger/index.html) that allow developers to create their own solutions built on the information that our Stock Exchange Back Office system offers. Information on Accounts, Transactions, Positions and general tables of the application can be consulted.
 
 We have a [**Help section**](https://api.sistemasesco.com/swagger-ui/Help.html) where we explain how to interact with the API, and you can also access a section of explanatory videos. (This help is available using Swagger). 
 In addition to the Help section, we have the [**API Documentation**](https://api.sistemasesco.com/swagger-ui/documentos/Instructivo_Esco_Api_VisualBolsa_v4.pdf) in PDF format available for download.
