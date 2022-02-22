@@ -25,3 +25,8 @@ In addition to the Help section, we have the [**API Documentation**](https://api
 
 In the [**Release Notes section**](https://api.sistemasesco.com/swagger-ui/releaseNotesEscoAPIVB.html) you can consult the new features and improvements in each version.
 
+
+##### New forms were added in order to show some functionalities of both Bolsa and Fondos API's:
+- Now the app starts showing a little form with a drop down list that lets you choose between the kind of example that you want to check out (Bolsa or Fondos)
+
+The Fondos form is totally new and was added to test some API functinalities for Fondos.

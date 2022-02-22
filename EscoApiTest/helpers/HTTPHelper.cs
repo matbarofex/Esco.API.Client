@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using EscoApiTest.FondosDemo.Models;
 using EscoApiTest.models.response;
 using Newtonsoft.Json;
 
@@ -195,7 +196,7 @@ namespace EscoApiTest.helpers {
         /// <returns></returns>
         public static async Task<List<T>> ConsumirMetodoGetGenerico<T>(string endPoint, string url, string version, string token, Func<string, int> errorHandler) {
 
-
+            errorHandler("");
             //se crea la conexion con EscoApi y se usa para procesar la respuesta
             using (var httpClient = new HttpClient()) {
 
@@ -241,6 +242,183 @@ namespace EscoApiTest.helpers {
             }
         }
 
+        /// <summary>
+        /// Consume la api recibiendo el tipo de objeto de consulta a enviar, y el tipo de objetos a recibir.
+        /// Este metodo se usa cuando se recibe una lista de objetos de respuesta, ej: Ordenes, Solicitudes FCI, Boletos, etc
+        /// </summary>
+        /// <typeparam name="T">Tipo de dato de response</typeparam>
+        /// <param name="endPoint">Metodo al que se llama de EscoApi</param>
+        /// <param name="url">Url Base de EscoApi</param>
+        /// <param name="version">Version de EscoApi a utilizar</param>
+        /// <param name="token">Token de autenticacion</param>
+        /// <param name="errorHandler">Funcion generica que se invoca si se produce un error</param>
+        /// <param name="queryParams">Parámetros para ser enviados vía query string</param>
+        /// <returns></returns>
+        public static async Task<T> ConsumirMetodoGetGenericoItem<T>(string endPoint, string url, string version, string token, Func<string, int> errorHandler,
+            IDictionary<string, string> queryParams, Func<RequestResponseData, int> requestResponseMsgs)
+        {
+            errorHandler("");
+            //se crea la conexion con EscoApi y se usa para procesar la respuesta
+            using (var httpClient = new HttpClient())
+            {
+                //se definen los encabezados del request
+                httpClient.BaseAddress = CrearURL(url, version);
+                httpClient.DefaultRequestHeaders.Add("api-version", version);
+                httpClient.DefaultRequestHeaders.Add("Authorization", "bearer " + token);
+
+                //se hace la llamada a EscoApi
+                var httpResponse = await httpClient.GetAsync($"{endPoint}{GetQueryParams(queryParams)}");
+
+                //proceso el estado de la respuesta de EscoApiTest de acuerdo a su codigo
+                switch (httpResponse.StatusCode)
+                {
+                    //no estoy autorizado a usar EscoApi (sebo autenticarme y usar un token valido)
+                    case HttpStatusCode.Unauthorized:
+                        errorHandler("NO AUTORIZADO");
+                        throw new Exception("NO AUTORIZADO");
+
+                    //el response el valido, se convierte la respuesta al tipo de objetos solicitado
+                    case HttpStatusCode.OK:
+                        string resultado = await httpResponse.Content.ReadAsStringAsync();
+                        try
+                        {
+                            HttpRequestMessage reqMsg = new HttpRequestMessage();
+                            RequestResponseData reqRespData = new RequestResponseData()
+                            {
+                                HttpResponseMessage = httpResponse,
+                                HttpRequestMessage = new HttpRequestMessage(HttpMethod.Get, endPoint)
+                            };
+
+                            foreach(var header in httpClient.DefaultRequestHeaders)
+                                reqRespData.HttpRequestMessage.Headers.Add(header.Key, header.Value.FirstOrDefault());
+
+                            requestResponseMsgs(reqRespData);
+
+                            return JsonConvert.DeserializeObject<T>(resultado);
+                        }
+                        catch (Exception ex)
+                        {
+                            return default(T);
+                        }
+
+                    //si se genero un error se muestra el mensaje, llamando a una funcion generica de manejo de error que se pasa como parametro (errorHandler)
+                    case HttpStatusCode.BadRequest:
+                        string resultadoError = await httpResponse.Content.ReadAsStringAsync();
+                        try
+                        {
+                            ErrorResponse error = JsonConvert.DeserializeObject<ErrorResponse>(resultadoError);
+                            errorHandler(error.error.Msj);
+                            throw new Exception(error.error.Msj);
+                        }
+                        catch (Exception ex)
+                        {
+                            return default(T);
+                        }
+
+                    default:
+                        return default(T);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Consume la api recibiendo el tipo de objeto de consulta a enviar, y el tipo de objetos a recibir.
+        /// Este metodo se usa cuando se recibe una lista de objetos de respuesta, ej: Ordenes, Solicitudes FCI, Boletos, etc
+        /// </summary>
+        /// <typeparam name="T">Tipo de dato de response</typeparam>
+        /// <param name="endPoint">Metodo al que se llama de EscoApi</param>
+        /// <param name="url">Url Base de EscoApi</param>
+        /// <param name="version">Version de EscoApi a utilizar</param>
+        /// <param name="token">Token de autenticacion</param>
+        /// <param name="errorHandler">Funcion generica que se invoca si se produce un error</param>
+        /// <param name="queryParams">Parámetros para ser enviados vía query string</param>
+        /// <returns></returns>
+        public static async Task<T> ConsumirMetodoPostGenericoItem<T>(object request, string endPoint, string url, string version, string token, Func<string, int> errorHandler,
+            IDictionary<string, string> queryParams, Func<RequestResponseData, int> requestResponseMsgs)
+        {
+            string serializedObj = JsonConvert.SerializeObject(request);
+            var httpContent = new StringContent(serializedObj, Encoding.UTF8, "application/json");
+
+            errorHandler("");
+            //se crea la conexion con EscoApi y se usa para procesar la respuesta
+            using (var httpClient = new HttpClient())
+            {
+                //se definen los encabezados del request
+                httpClient.BaseAddress = CrearURL(url, version);
+                httpClient.DefaultRequestHeaders.Add("api-version", version);
+                httpClient.DefaultRequestHeaders.Add("Authorization", "bearer " + token);
+
+                //se hace la llamada a EscoApi
+                var httpResponse = await httpClient.PostAsync($"{endPoint}{GetQueryParams(queryParams)}", httpContent);
+
+                //proceso el estado de la respuesta de EscoApiTest de acuerdo a su codigo
+                switch (httpResponse.StatusCode)
+                {
+                    //no estoy autorizado a usar EscoApi (sebo autenticarme y usar un token valido)
+                    case HttpStatusCode.Unauthorized:
+                        errorHandler("NO AUTORIZADO");
+                        throw new Exception("NO AUTORIZADO");
+
+                    //el response el valido, se convierte la respuesta al tipo de objetos solicitado
+                    case HttpStatusCode.OK:
+                        string resultado = await httpResponse.Content.ReadAsStringAsync();
+                        try
+                        {
+                            HttpRequestMessage reqMsg = new HttpRequestMessage();
+                            RequestResponseData reqRespData = new RequestResponseData()
+                            {
+                                HttpResponseMessage = httpResponse,
+                                HttpRequestMessage = new HttpRequestMessage(HttpMethod.Get, endPoint)
+                            };
+
+                            foreach (var header in httpClient.DefaultRequestHeaders)
+                                reqRespData.HttpRequestMessage.Headers.Add(header.Key, header.Value.FirstOrDefault());
+
+                            requestResponseMsgs(reqRespData);
+
+                            return JsonConvert.DeserializeObject<T>(resultado);
+                        }
+                        catch (Exception ex)
+                        {
+                            return default(T);
+                        }
+
+                    //si se genero un error se muestra el mensaje, llamando a una funcion generica de manejo de error que se pasa como parametro (errorHandler)
+                    case HttpStatusCode.BadRequest:
+                        string resultadoError = await httpResponse.Content.ReadAsStringAsync();
+                        try
+                        {
+                            ErrorResponse error = JsonConvert.DeserializeObject<ErrorResponse>(resultadoError);
+                            errorHandler(error.error.Msj);
+                            throw new Exception(error.error.Msj);
+                        }
+                        catch (Exception ex)
+                        {
+                            return default(T);
+                        }
+
+                    default:
+                        return default(T);
+                }
+            }
+        }
+
+        public static string GetQueryParams(IDictionary<string, string> queryParams)
+        {
+            List<string> qryParams = new List<string>();
+            string paramsString = string.Empty;
+
+            if (queryParams != null)
+            {
+                foreach (var item in queryParams)
+                    qryParams.Add($"{item.Key}={item.Value}");
+
+                if (qryParams.Any())
+                    paramsString = $"?{string.Join("&", qryParams)}";
+            }
+
+            return paramsString;
+        }
 
         /// <summary>
         /// Crea la url de EscoApi con la url base y la version

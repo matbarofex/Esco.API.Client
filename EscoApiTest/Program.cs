@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace EscoApiTest {
+namespace EscoApiTest
+{
     static class Program {
         /// <summary>
         /// The main entry point for the application.
@@ -13,7 +11,9 @@ namespace EscoApiTest {
         static void Main() {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new frmTest());
+            //Application.Run(new frmTest());
+            //Application.Run(new frmFondosDemo());
+            Application.Run(new frmDemoPpal());
         }
     }
 }

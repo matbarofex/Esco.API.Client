@@ -10,8 +10,23 @@
     <AssemblyName>EscoApiTest</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -66,15 +81,58 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FondosDemo\Constants.cs" />
+    <Compile Include="FondosDemo\Forms\FondosDemoListaPersonas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FondosDemo\Forms\FondosDemoListaPersonas.Designer.cs">
+      <DependentUpon>FondosDemoListaPersonas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FondosDemo\Forms\FondosDemo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FondosDemo\Forms\FondosDemo.Designer.cs">
+      <DependentUpon>FondosDemo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FondosDemo\Models\ESCOException.cs" />
+    <Compile Include="FondosDemo\Models\Genero.cs" />
+    <Compile Include="FondosDemo\Models\RequestResponseData.cs" />
+    <Compile Include="FondosDemo\Models\Cuotapartista.cs" />
+    <Compile Include="FondosDemo\Models\Persona.cs" />
+    <Compile Include="FondosDemo\Models\Requests\CuentaGlobalInsertUpdateRequests.cs" />
+    <Compile Include="FondosDemo\Models\Responses\CptCuentaBancaria.cs" />
+    <Compile Include="FondosDemo\Models\Responses\CptJuridico.cs" />
+    <Compile Include="FondosDemo\Models\Responses\Cuotapartista.cs" />
+    <Compile Include="FondosDemo\Models\Responses\InsertUpdateDelete.cs" />
+    <Compile Include="FondosDemo\Models\Responses\ItemBaseResponse.cs" />
+    <Compile Include="FondosDemo\Models\Responses\Moneda.cs" />
+    <Compile Include="FondosDemo\Models\Responses\OficialCtaBaseTablaSistema.cs" />
+    <Compile Include="FondosDemo\Models\Responses\PagedData\IPagedDataResponse.cs" />
+    <Compile Include="FondosDemo\Models\Responses\PagedData\IPagingHeader.cs" />
+    <Compile Include="FondosDemo\Models\Responses\PagedData\IPagingParams.cs" />
+    <Compile Include="FondosDemo\Models\Responses\PagedData\PagedDataResponse.cs" />
+    <Compile Include="FondosDemo\Models\Responses\Persona.cs" />
+    <Compile Include="FondosDemo\Models\Responses\Settings\IPagedList.cs" />
+    <Compile Include="FondosDemo\Models\Responses\Settings\PagedList.cs" />
+    <Compile Include="DemoPpal.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DemoPpal.Designer.cs">
+      <DependentUpon>DemoPpal.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FondosDemo\Models\Responses\SucursalBaseTablaSistema.cs" />
+    <Compile Include="FondosDemo\Models\Responses\TipoDocumentoIdentidadBase.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="helpers\CommonHelper.cs" />
     <Compile Include="helpers\CustomJsonDateConverter.cs" />
     <Compile Include="helpers\HTTPHelper.cs" />
     <Compile Include="models\generic\PieItem.cs" />
+    <Compile Include="models\generic\SystemToTry.cs" />
     <Compile Include="models\request\CotizacionesRequest.cs" />
     <Compile Include="models\request\CuentasRequest.cs" />
     <Compile Include="models\request\DisponibleMonRequest.cs" />
@@ -99,6 +157,15 @@
     <Compile Include="models\response\LoginResponse.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FondosDemo\Forms\FondosDemoListaPersonas.resx">
+      <DependentUpon>FondosDemoListaPersonas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FondosDemo\Forms\FondosDemo.resx">
+      <DependentUpon>FondosDemo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DemoPpal.resx">
+      <DependentUpon>DemoPpal.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -129,6 +196,21 @@
   <ItemGroup>
     <Content Include="MetroFramework.txt" />
     <None Include="Resources\ESCO_Wall.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="FondosDemo\Generic\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 y x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
