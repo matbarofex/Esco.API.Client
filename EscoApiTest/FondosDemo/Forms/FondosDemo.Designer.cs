@@ -1132,7 +1132,7 @@ namespace EscoApiTest.FondosDemo.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1336, 715);
+            this.ClientSize = new System.Drawing.Size(1336, 743);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.panel1);
